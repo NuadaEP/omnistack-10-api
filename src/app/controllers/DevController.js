@@ -1,6 +1,7 @@
 const AxiosService = require('../services/AxiosService');
 const DevModel = require('../models/DevModel');
 const DevValidator = require('../validators/DevValidator');
+const ParseStringAsArray = require('../utils/ParseStringAsArray');
 
 class DevController {
     async index(req, res) {
@@ -39,7 +40,7 @@ class DevController {
                 `https://api.github.com/users/${github_username}`
             );
 
-            const techsArray = techs.split(',').map(tech => tech.trim());
+            const techsArray = ParseStringAsArray(techs);
 
             const dbResponse = await DevModel.create({
                 github_username,
