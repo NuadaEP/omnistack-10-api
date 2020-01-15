@@ -19,7 +19,19 @@ class DevController {
         try {
             await DevValidator(req.body, 'store');
 
-            const { github_username, techs } = req.body;
+            const { github_username, techs, latitude, longitude } = req.body;
+
+            const location = {
+                type: 'Point',
+                coordinates: [longitude, latitude],
+            };
+
+            const findDev = await DevModel.findOne({ github_username });
+
+            if (findDev)
+                return res
+                    .status(400)
+                    .json({ error: 'This user is already registred' });
 
             const {
                 data: { name = login, avatar_url, bio },
@@ -35,6 +47,7 @@ class DevController {
                 name,
                 avatar_url,
                 bio,
+                location,
             });
 
             return res.json(dbResponse);

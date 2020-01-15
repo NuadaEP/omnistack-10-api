@@ -9,6 +9,8 @@ class DevValidator {
                 validationConfig = Yup.object().shape({
                     github_username: Yup.string().required(),
                     techs: Yup.string().required(),
+                    latitude: Yup.number().required(),
+                    longitude: Yup.number().required(),
                 });
 
             case 'update':
